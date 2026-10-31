@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#6750A4">
+  <title>CMS-2027</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%236750A4'/%3E%3Cpath fill='%23fff' d='M12 3a5 5 0 0 0-5 5v3H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1V8a5 5 0 0 0-5-5zm3 8H9V8a3 3 0 1 1 6 0v3z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="app-bar">
+    <div class="app-bar-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3a5 5 0 0 0-5 5v3H6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1V8a5 5 0 0 0-5-5zm3 8H9V8a3 3 0 1 1 6 0v3z"/></svg>
+        </div>
+        <div class="brand-name">CMS-2027</div>
+      </div>
+      <nav class="nav-pills" aria-label="CMS-2027">
+        <a href="#/" data-route="/" data-i18n="nav.home">主页</a>
+        <a href="#/history" data-route="/history" data-i18n="nav.history">历史</a>
+        <a href="#/settings" data-route="/settings" data-i18n="nav.settings">设置</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <section id="view-home" class="view active">
+      <h1 class="hero-title" data-i18n="home.title">CMS-2027</h1>
+      <p class="hero-sub" data-i18n="home.subtitle"></p>
+
+      <div class="segmented" role="tablist">
+        <button type="button" id="tab-encrypt" class="active" data-i18n="home.encrypt">加密</button>
+        <button type="button" id="tab-decrypt" data-i18n="home.decrypt">解密</button>
+      </div>
+      <div class="segmented" role="tablist">
+        <button type="button" id="mode-normal" class="active" data-i18n="home.modeNormal">普通模式</button>
+        <button type="button" id="mode-strong" data-i18n="home.modeStrong">强加密模式</button>
+      </div>
+
+      <div class="card">
+        <textarea id="input-text" class="field" rows="5" data-i18n-placeholder="home.inputPlaceholderEncrypt"></textarea>
+        <div class="icon-row">
+          <button type="button" class="icon-btn" id="btn-paste" data-i18n-aria="home.paste" data-i18n-title="home.paste">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 16H5V5h2v3h10V5h2z"/></svg>
+          </button>
+          <button type="button" class="icon-btn" id="btn-scan" data-i18n-aria="home.scan" data-i18n-title="home.scan">
+            <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm13-2h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
+          </button>
+          <button type="button" class="icon-btn danger" id="btn-clear-in" data-i18n-aria="home.clear" data-i18n-title="home.clear">
+            <svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+          </button>
+        </div>
+        <div class="key-row" id="key-row">
+          <label class="key-label" for="passphrase" data-i18n="home.passphrase">密钥</label>
+          <div class="key-wrap">
+            <input id="passphrase" type="password" data-i18n-placeholder="home.passphrasePlaceholder">
+            <button type="button" class="icon-btn" id="btn-toggle-key" data-i18n-aria="home.showKey" data-i18n-title="home.showKey">
+              <svg viewBox="0 0 24 24"><path d="M12 6a9.77 9.77 0 0 1 8.82 5.5A9.77 9.77 0 0 1 12 17a9.77 9.77 0 0 1-8.82-5.5A9.77 9.77 0 0 1 12 6zm0 9a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="primary-btn" id="btn-run">
+        <span id="run-label" data-i18n="home.encryptAction">加密</span>
+      </button>
+
+      <div class="banner" id="error-banner"></div>
+
+      <div class="card">
+        <textarea id="output-text" class="field mono" rows="4" readonly data-i18n-placeholder="home.outputPlaceholder"></textarea>
+        <div class="icon-row">
+          <button type="button" class="icon-btn" id="btn-copy" data-i18n-aria="home.copy" data-i18n-title="home.copy">
+            <svg viewBox="0 0 24 24"><path d="M16 1H4a2 2 0 0 0-2 2v12h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg>
+          </button>
+          <button type="button" class="icon-btn" id="btn-qr" data-i18n-aria="home.qr" data-i18n-title="home.qr">
+            <svg viewBox="0 0 24 24"><path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm8-2v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zm13-2h-2v3h-3v2h3v3h2v-3h3v-2h-3z"/></svg>
+          </button>
+          <button type="button" class="icon-btn danger" id="btn-clear-out" data-i18n-aria="home.clear" data-i18n-title="home.clear">
+            <svg viewBox="0 0 24 24"><path d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-history" class="view">
+      <h1 class="hero-title" data-i18n="history.title">历史记录</h1>
+      <input id="history-search" class="search" data-i18n-placeholder="history.search">
+      <div class="chips" id="history-chips"></div>
+      <div class="toolbar" id="history-toolbar"></div>
+      <div id="history-list"></div>
+      <div class="empty" id="history-empty">
+        <div class="empty-art">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5a2 2 0 0 0-2 2v14l4-4h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/></svg>
+        </div>
+        <div data-i18n="history.empty">暂无记录</div>
+        <p data-i18n="history.emptyHint"></p>
+      </div>
+    </section>
+
+    <section id="view-settings" class="view">
+      <div class="card settings-card">
+        <h2 data-i18n="settings.appearance">外观</h2>
+        <div class="setting-block">
+          <div class="setting-label" data-i18n="settings.theme">主题</div>
+          <div class="segmented">
+            <button type="button" data-theme-mode="system" data-i18n="settings.themeSystem">跟随系统</button>
+            <button type="button" data-theme-mode="light" data-i18n="settings.themeLight">浅色</button>
+            <button type="button" data-theme-mode="dark" data-i18n="settings.themeDark">深色</button>
+          </div>
+        </div>
+        <div class="setting-block">
+          <div class="setting-label" data-i18n="settings.color">取色</div>
+          <div class="segmented">
+            <button type="button" data-color-mode="system" data-i18n="settings.colorDefault">默认色</button>
+            <button type="button" data-color-mode="custom" data-i18n="settings.colorCustom">自定义</button>
+          </div>
+          <div class="color-grid" id="color-grid"></div>
+          <div class="color-picker" id="color-picker">
+            <input type="color" id="color-input" value="#6750A4">
+            <span id="color-hex">#6750A4</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card settings-card">
+        <h2 data-i18n="settings.language">语言</h2>
+        <div class="lang-list" id="lang-list"></div>
+      </div>
+
+      <div class="card settings-card">
+        <h2 data-i18n="settings.about">关于</h2>
+        <div class="about-row"><span data-i18n="settings.appName">CMS-2027</span><span>CMS-2027</span></div>
+        <p class="hero-sub" data-i18n="settings.appDesc"></p>
+        <div class="about-row"><span data-i18n="settings.repo">代码仓库</span><a href="https://github.com/clcwpwqi/CMS-2027" target="_blank" rel="noopener">github.com/clcwpwqi/CMS-2027</a></div>
+        <div class="about-row"><span data-i18n="settings.developer">开发者</span><span>clcwpwqi</span></div>
+        <div class="about-row"><span data-i18n="settings.telegram">Telegram</span><a href="https://t.me/clcwpwqi" target="_blank" rel="noopener">@clcwpwqi</a></div>
+        <div class="about-row"><span data-i18n="settings.wechat">微信公众号</span><span>@clcwpwqi</span></div>
+        <div class="about-row"><span data-i18n="settings.email">邮箱</span><a href="mailto:clcwpwqi@outlook.com">clcwpwqi@outlook.com</a></div>
+        <div class="about-row"><span data-i18n="settings.algorithm">算法</span><span data-i18n="settings.algoDetail"></span></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="dialog-backdrop" id="qr-dialog">
+    <div class="dialog" role="dialog" aria-modal="true">
+      <h3 data-i18n="dialog.qrTitle">二维码</h3>
+      <img class="qr-preview" id="qr-img" alt="QR">
+      <div class="dialog-actions">
+        <a class="text-btn" id="qr-download" download="cms2027-qr.png" data-i18n="dialog.qrDownload">下载 PNG</a>
+        <button type="button" class="text-btn" id="qr-close" data-i18n="dialog.close">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-backdrop" id="scan-dialog">
+    <div class="dialog" role="dialog" aria-modal="true">
+      <h3 data-i18n="dialog.scanTitle">扫描二维码</h3>
+      <p data-i18n="dialog.scanHint"></p>
+      <video id="scan-video" playsinline autoplay muted></video>
+      <canvas id="scan-canvas"></canvas>
+      <div class="dialog-actions">
+        <label class="text-btn" for="scan-file" data-i18n="dialog.scanUpload">上传图片识别</label>
+        <input type="file" id="scan-file" accept="image/*" hidden>
+        <button type="button" class="text-btn" id="scan-close" data-i18n="dialog.close">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialog-backdrop" id="confirm-dialog">
+    <div class="dialog" role="dialog" aria-modal="true">
+      <h3 id="confirm-title"></h3>
+      <p id="confirm-msg"></p>
+      <div class="dialog-actions">
+        <button type="button" class="text-btn" id="confirm-cancel" data-i18n="dialog.cancel">取消</button>
+        <button type="button" class="text-btn danger" id="confirm-ok" data-i18n="dialog.confirm">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <script defer src="vendor/qrcode.js"></script>
+  <script defer src="vendor/jsQR.js"></script>
+  <script defer src="js/cms2027.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
